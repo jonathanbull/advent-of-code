@@ -1,11 +1,3 @@
-import time
-
-shape_scores = {
-    'rock': 1,
-    'paper': 2,
-    'scissors': 3,
-}
-
 shape_map = {
     'A': 'rock',
     'B': 'paper',
@@ -15,14 +7,20 @@ shape_map = {
     'Z': 'scissors'
 }
 
+shape_scores = {
+    'rock': 1,
+    'paper': 2,
+    'scissors': 3,
+}
+
 def get_score_for_round(line):
     opponent_shape = shape_map[line[0]]
     opponent_score = shape_scores[opponent_shape]
     my_shape = shape_map[line[2]]
     my_score = shape_scores[my_shape]
 
-    print('Opponent chooses {} ({})'.format(opponent_shape, opponent_score))
-    print('I choose {} ({})'.format(my_shape, my_score))
+    print('Opponent chooses {}'.format(opponent_shape, opponent_score))
+    print('I choose {} (+{})'.format(my_shape, my_score))
 
     if (
         (my_shape == 'rock' and opponent_shape == 'scissors') or
@@ -46,9 +44,7 @@ total_score = 0
 with open('input.txt') as input_file:
     for line in input_file:
         total_score += get_score_for_round(line.strip())
-        print('Total score: {}'.format(total_score))
         print('')
-        # time.sleep(1)
 
 print('-' * 20)
 print('Total score: {}'.format(total_score))
