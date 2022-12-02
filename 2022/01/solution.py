@@ -1,7 +1,7 @@
 elf_calorie_counts = {}
 
 # Get calorie counts for each elf
-with open('data.txt') as input_file:
+with open('input.txt') as input_file:
     elf_index = 1
     for line in input_file:
         line = line.strip()
