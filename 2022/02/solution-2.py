@@ -10,24 +10,36 @@ shape_scores = {
     'scissors': 3,
 }
 
-decision_map = {
+forced_outcome_map = {
     'X': 'lose',
     'Y': 'draw',
     'Z': 'win'
 }
 
+shape_beats_shape = {
+    'rock': 'scissors',
+    'paper': 'rock',
+    'scissors': 'paper',
+}
+
 def get_score_for_round(line):
     opponent_shape = shape_map[line[0]]
-    opponent_score = shape_scores[opponent_shape]
+    forced_outcome = forced_outcome_map[line[2]]
 
-    print('Opponent chooses {}'.format(opponent_shape, opponent_score))
-    print('I choose {} (+{})'.format(my_shape, my_score))
+    if forced_outcome == 'lose':
+        my_shape = shape_beats_shape[opponent_shape]
+    elif forced_outcome == 'win':
+        shape_beats_shape_reversed = dict((v,k) for k,v in shape_beats_shape.items())
+        my_shape = shape_beats_shape_reversed[opponent_shape]
+    else:
+        my_shape = opponent_shape
 
-    if (
-        (my_shape == 'rock' and opponent_shape == 'scissors') or
-        (my_shape == 'paper' and opponent_shape == 'rock') or
-        (my_shape == 'scissors' and opponent_shape == 'paper')
-    ):
+    my_score = shape_scores[my_shape]
+
+    print('Opponent chooses {}'.format(opponent_shape))
+    print('I need to {}, so I choose {} (+{})'.format(forced_outcome, my_shape, my_score))
+
+    if shape_beats_shape[my_shape] == opponent_shape:
         print('= Win (+6)')
         my_score += 6
     elif opponent_shape == my_shape:
