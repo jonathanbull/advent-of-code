@@ -15,11 +15,10 @@ shape_scores = {
 
 def get_score_for_round(line):
     opponent_shape = shape_map[line[0]]
-    opponent_score = shape_scores[opponent_shape]
     my_shape = shape_map[line[2]]
     my_score = shape_scores[my_shape]
 
-    print('Opponent chooses {}'.format(opponent_shape, opponent_score))
+    print('Opponent chooses {}'.format(opponent_shape))
     print('I choose {} (+{})'.format(my_shape, my_score))
 
     if (
