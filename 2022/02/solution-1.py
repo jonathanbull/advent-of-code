@@ -13,6 +13,12 @@ shape_scores = {
     'scissors': 3,
 }
 
+shape_beats_shape = {
+    'rock': 'scissors',
+    'paper': 'rock',
+    'scissors': 'paper',
+}
+
 def get_score_for_round(line):
     opponent_shape = shape_map[line[0]]
     my_shape = shape_map[line[2]]
@@ -21,11 +27,7 @@ def get_score_for_round(line):
     print('Opponent chooses {}'.format(opponent_shape))
     print('I choose {} (+{})'.format(my_shape, my_score))
 
-    if (
-        (my_shape == 'rock' and opponent_shape == 'scissors') or
-        (my_shape == 'paper' and opponent_shape == 'rock') or
-        (my_shape == 'scissors' and opponent_shape == 'paper')
-    ):
+    if shape_beats_shape[my_shape] == opponent_shape:
         print('= Win (+6)')
         my_score += 6
     elif opponent_shape == my_shape:
