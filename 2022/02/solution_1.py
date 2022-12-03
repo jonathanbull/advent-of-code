@@ -19,6 +19,7 @@ shape_beats_shape = {
     'scissors': 'paper',
 }
 
+
 def get_score_for_round(line):
     opponent_shape = shape_map[line[0]]
     my_shape = shape_map[line[2]]
