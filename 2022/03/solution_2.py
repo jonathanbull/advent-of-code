@@ -3,6 +3,7 @@ import string
 def get_common_items(lines):
     return set.intersection(*map(set, lines))
 
+
 def get_priority_for_item(item):
     if item.isupper():
         return string.ascii_uppercase.index(item) + 27
