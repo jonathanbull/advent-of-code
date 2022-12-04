@@ -18,7 +18,6 @@ def range_is_subset_of_range(x, y):
 
 
 pair_contains_the_other_count = 0
-pair_overlaps_the_other_count = 0
 with open('input.txt') as input_file:
     for line in input_file:
         line = line.strip()
