@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 def get_stacks(input_file):
     stacks = {}
     for line in input_file:
