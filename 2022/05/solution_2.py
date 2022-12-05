@@ -28,8 +28,11 @@ def process_instruction(stacks, line):
     move_from = int(instructions[1])
     move_to = int(instructions[2])
 
+    crates_to_move = []
     for _ in range(move_quantity):
-        stacks[move_to].append(stacks[move_from].pop())
+        crates_to_move.insert(0, stacks[move_from].pop())
+
+    stacks[move_to].extend(crates_to_move)
 
 
 def print_stacks(stacks):
