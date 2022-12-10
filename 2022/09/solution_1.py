@@ -29,6 +29,18 @@ class Rope(object):
         return 'Head: {} | Tail: {}.'.format(self.head, self.tail)
 
 
+def print_grid(rope, grid_size):
+    for y in reversed(range(0, grid_size)):
+        for x in range(0, grid_size):
+            if rope.head.x == x and rope.head.y == y:
+                print('H', end='')
+            elif rope.tail.x == x and rope.tail.y == y:
+                print('T', end='')
+            else:
+                print('.', end='')
+        print()
+
+
 class Coordinate(object):
     def __init__(self, x, y):
         self.x = x
