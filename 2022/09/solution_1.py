@@ -82,7 +82,7 @@ with open('input.txt') as input_file:
         line = line.strip()
         direction = line[0]
         count = int(line[2:])
-        print(line)
+        print('== {} =='.format(line))
         rope.move_head(direction, count)
 
 print()
