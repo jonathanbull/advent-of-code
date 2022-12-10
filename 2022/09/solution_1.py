@@ -7,8 +7,6 @@ class Rope(object):
     def __init__(self, start_x, start_y):
         self.head = Coordinate(start_x, start_y)
         self.tail = Coordinate(start_x, start_y)
-        self.head_journey = []
-        self.tail_journey = []
 
     def tail_is_touching_head(self):
         return abs(self.head.x - self.tail.x) <= 1 and abs(self.head.y - self.tail.y) <= 1
