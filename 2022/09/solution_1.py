@@ -16,16 +16,9 @@ class Rope(object):
             self.head.move(direction)
 
             if self.tail_is_touching_head() == False:
-                # The tail is no longer touching the head
-                if self.head.x == self.tail.x or self.head.y == self.tail.y:
-                    # Tail is still in the same row/column as head (e.g. 2 across)
-                    # Travel along one in the same direction
-                    self.tail.move(direction)
-                else:
-                    # Tail is not in the same row/column as head (e.g. 1 across, 2 up)
-                    # Travel to the previous position head was in, which will be a diagonal move
-                    self.tail.x = head_journey[-1].x
-                    self.tail.y = head_journey[-1].y
+                # We can just move to the last position the head was at
+                self.tail.x = head_journey[-1].x
+                self.tail.y = head_journey[-1].y
 
             head_journey.append(copy.copy(self.head))
             tail_journey.append(copy.copy(self.tail))
