@@ -26,7 +26,8 @@ with open('input.txt') as input_file:
             value = int(line[5:])
             x += value
 
-
+print()
+print('-' * 50)
 print('Cycle count: {}'.format(cycle_number))
 print('x: {}'.format(x))
 print('Sum of x at interesting cycles {}: {}'.format(interesting_cycles, interesting_signal_strength_sum))
