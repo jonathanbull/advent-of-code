@@ -33,7 +33,7 @@ def print_monkey_business(monkeys):
 
     ordered_monkeys = sorted(monkeys, key=lambda x: x.inspected_items_count, reverse=True)
     monkey_business_score = ordered_monkeys[0].inspected_items_count * ordered_monkeys[1].inspected_items_count
-    print('Monkey business score: {}'.format(str(monkey_business_score)))
+    print('Monkey business score: {}'.format(monkey_business_score))
 
 
 def assemble_monkeys():
@@ -65,6 +65,19 @@ def assemble_monkeys():
 
 
 def play_game(monkeys, rounds):
+    # The items can get HUGE when we get to thousands of rounds. Performing
+    # operations on those items is totally impractical – things get impossibly
+    # slow (and calculations likely become erroneous). Luckily there's a trick
+    # to make these items a lot smaller: calculating the lowest common multiple
+    # (LCM) of all of the monkey's test_divisible_by values.
+    #
+    # We can then pass the LCM to pow() as the modulo operator. This just gives
+    # us the remainder of the calculation rather than a HUGE number. Which is
+    # totally adequate, as ultimately we don't care too much about the exact
+    # values: we only care if the items are *divisible* by each monkey's
+    # test_divisible_by. And the modulo remainder satisfies that requirement.
+    lowest_common_multiple = math.lcm(*[m.test_divisible_by for m in monkeys])
+
     round_count = 1
     while round_count <= rounds:
         print('== Round {} =='.format(round_count))
@@ -72,8 +85,11 @@ def play_game(monkeys, rounds):
             # print('Monkey {}:'.format(monkey.index))
             for item in monkey.items:
                 # print('  Monkey inspects an item with a worry level of {}.'.format(item))
-                old = item
-                item = eval(monkey.operation_eval)
+                if monkey.operation_eval == 'old * old':
+                    item = pow(item, 2, lowest_common_multiple)
+                else:
+                    old = item
+                    item = eval(monkey.operation_eval)
                 # print('    Worry level operation eval is "{}". New value of {}.'.format(monkey.operation_eval, item))
                 # print('    Monkey gets bored with item.')
                 if item % monkey.test_divisible_by == 0:
@@ -94,7 +110,8 @@ def play_game(monkeys, rounds):
     return monkeys
 
 
+# print(pow(10, 2, 21))
 monkeys = assemble_monkeys()
-# print_monkeys(monkeys, False)
+print_monkeys(monkeys)
 play_game(monkeys, 10000)
 print_monkey_business(monkeys)

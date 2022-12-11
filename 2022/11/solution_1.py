@@ -33,7 +33,7 @@ def print_monkey_business(monkeys):
 
     ordered_monkeys = sorted(monkeys, key=lambda x: x.inspected_items_count, reverse=True)
     monkey_business_score = ordered_monkeys[0].inspected_items_count * ordered_monkeys[1].inspected_items_count
-    print('Monkey business score: {}'.format(str(monkey_business_score)))
+    print('Monkey business score: {}'.format(monkey_business_score))
 
 
 def assemble_monkeys():
