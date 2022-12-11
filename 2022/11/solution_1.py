@@ -67,7 +67,7 @@ def assemble_monkeys():
 def play_game(monkeys, rounds):
     round_count = 1
     while round_count <= rounds:
-        # print('== Round {} =='.format(round_count))
+        print('== Round {} =='.format(round_count))
         for monkey in monkeys:
             # print('Monkey {}:'.format(monkey.index))
             for item in monkey.items:
@@ -89,6 +89,8 @@ def play_game(monkeys, rounds):
             monkey.items = []
 
         round_count += 1
+        print_monkey_business(monkeys)
+        print()
 
     return monkeys
 
