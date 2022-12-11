@@ -1,33 +1,99 @@
-interesting_cycles = [20, 60, 100, 140, 180, 220]
-interesting_signal_strength_sum = 0
+import math
+import time
 
-def log_cycle(cycle_number, x):
-    global interesting_signal_strength_sum
-    print('Logging cycle {}, x: {}'.format(cycle_number, x))
-    if cycle_number in interesting_cycles:
-        signal_strength = (cycle_number * x)
-        print('Interesting cycle! x: {}, signal_strength: {}'.format(x, signal_strength))
-        interesting_signal_strength_sum += signal_strength
+class Monkey(object):
+    def __init__(self, index):
+        self.index = index
+        self.items = []
+        self.inspected_items_count = 0
+        self.operation_eval = ''
+        self.test_divisible_by = ''
+        self.test_true_target = ''
+        self.test_false_target = ''
+
+    def __str__(self):
+        output =  '== Monkey {} ==\n'.format(self.index)
+        output += 'Items: {}\n'.format(self.items)
+        output += 'Operation: new = {}\n'.format(self.operation_eval)
+        output += 'Test: divisible by {}\n'.format(self.test_divisible_by)
+        output += '  If true: throw to monkey {}\n'.format(self.test_true_target)
+        output += '  If false: throw to monkey {}\n'.format(self.test_false_target)
+
+        return output
 
 
-cycle_number = 0
-x = 1
-with open('input.txt') as input_file:
-    for line in input_file:
-        line = line.strip()
-        print('==' + line + '==')
-        cycle_number += 1
-        log_cycle(cycle_number, x)
+def print_monkeys(monkeys):
+    for monkey in monkeys:
+        print(monkey)
 
-        if line.startswith('addx '):
-            for i in range(0, 1):
-                cycle_number += 1
-                log_cycle(cycle_number, x)
-            value = int(line[5:])
-            x += value
 
-print()
-print('-' * 50)
-print('Cycle count: {}'.format(cycle_number))
-print('x: {}'.format(x))
-print('Sum of x at interesting cycles {}: {}'.format(interesting_cycles, interesting_signal_strength_sum))
+def print_monkey_business(monkeys):
+    for monkey in monkeys:
+        print('Monkey {} -> items: {}, inspected_items_count: {}'.format(monkey.index, monkey.items, monkey.inspected_items_count))
+
+    ordered_monkeys = sorted(monkeys, key=lambda x: x.inspected_items_count, reverse=True)
+    monkey_business_score = ordered_monkeys[0].inspected_items_count * ordered_monkeys[1].inspected_items_count
+    print('Monkey business score: {}'.format(str(monkey_business_score)))
+
+
+def assemble_monkeys():
+    monkeys = []
+    with open('input.txt') as input_file:
+        for line in input_file:
+            line = line.strip()
+            if line.startswith('Monkey '):
+                index = line[7:].replace(':', '')
+                monkey = Monkey(index)
+                monkeys.append(monkey)
+            elif line.startswith('Starting items: '):
+                monkey.items = [int(x) for x in line[16:].split(', ')]
+                pass
+            elif line.startswith('Operation: '):
+                monkey.operation_eval = line[17:]
+                pass
+            elif line.startswith('Test: '):
+                monkey.test_divisible_by = int(line[19:])
+                pass
+            elif line.startswith('If true: '):
+                monkey.test_true_target = int(line[25:])
+                pass
+            elif line.startswith('If false: '):
+                monkey.test_false_target = int(line[26:])
+                pass
+
+    return monkeys
+
+
+def play_game(monkeys, rounds):
+    round_count = 1
+    while round_count <= rounds:
+        # print('== Round {} =='.format(round_count))
+        for monkey in monkeys:
+            # print('Monkey {}:'.format(monkey.index))
+            for item in monkey.items:
+                # print('  Monkey inspects an item with a worry level of {}.'.format(item))
+                old = item
+                item = eval(monkey.operation_eval)
+                # print('    Worry level operation eval is "{}". New value of {}.'.format(monkey.operation_eval, item))
+                item = math.floor(item / 3)
+                # print('    Monkey gets bored with item. Worry level is divided by 3 to {}.'.format(item))
+                if item % monkey.test_divisible_by == 0:
+                    # print('    Current worry level is divisible by {}.'.format(monkey.test_divisible_by))
+                    # print('    Item with worry level {} is thrown to monkey {}.'.format(item, monkey.test_true_target))
+                    monkeys[monkey.test_true_target].items.append(item)
+                else:
+                    # print('    Current worry level is not divisible by {}.'.format(monkey.test_divisible_by))
+                    # print('    Item with worry level {} is thrown to monkey {}.'.format(item, monkey.test_false_target))
+                    monkeys[monkey.test_false_target].items.append(item)
+                monkey.inspected_items_count += 1
+            monkey.items = []
+
+        round_count += 1
+
+    return monkeys
+
+
+monkeys = assemble_monkeys()
+# print_monkeys(monkeys, False)
+play_game(monkeys, 20)
+print_monkey_business(monkeys)
