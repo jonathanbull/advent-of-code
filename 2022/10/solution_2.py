@@ -1,8 +1,6 @@
 def print_cycle(cycle_number, x):
     current_pixel = 39 if cycle_number % 40 == 0 else (cycle_number % 40 - 1)
     sprite = [x-1, x, x+1]
-    # print('cycle: {}, pixel {}'.format(cycle_number, current_pixel))
-    # print('x: {}, sprite: {}'.format(x, sprite))
     if current_pixel in sprite:
         print('#', end='')
     else:
