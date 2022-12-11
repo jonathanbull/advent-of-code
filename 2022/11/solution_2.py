@@ -65,11 +65,11 @@ def assemble_monkeys():
 
 
 def play_game(monkeys, rounds):
-    # The items can get HUGE when we get to thousands of rounds. Performing
-    # operations on those items is totally impractical – things get impossibly
-    # slow (and calculations likely become erroneous). Luckily there's a trick
-    # to make these items a lot smaller: calculating the lowest common multiple
-    # (LCM) of all of the monkey's test_divisible_by values.
+    # The items can get HUGE when we get into the region of thousands of rounds.
+    # Performing operations on those items is totally impractical – things get
+    # impossibly slow (and calculations likely become erroneous). Luckily
+    # there's a trick to make these items a lot smaller: calculating the lowest
+    # common multiple (LCM) of all of the monkey's test_divisible_by values.
     #
     # We can then pass the LCM to pow() as the modulo operator. This just gives
     # us the remainder of the calculation rather than a HUGE number. Which is
